@@ -3,13 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/mczarny/NetBeansProjects/LoadScript/src/script/user/insertData.sql</file>
-            <file>file:/home/mczarny/NetBeansProjects/LoadScript/src/script/original/insertData.sql</file>
-            <file>file:/home/mczarny/NetBeansProjects/LoadScript/src/script/slaskdb_20151605.sql</file>
-            <file>file:/home/mczarny/NetBeansProjects/LoadScript/src/script/original/makeMainDB.sql</file>
-            <file>file:/home/mczarny/NetBeansProjects/LoadScript/src/loadscript/NewGameTest.java</file>
-            <file>file:/home/mczarny/NetBeansProjects/LoadScript/src/loadscript/LoadScript.java</file>
-            <file>file:/home/mczarny/NetBeansProjects/LoadScript/src/script/original/makeSlaskDB.sql</file>
+            <file>file:/home/mczarny/git/loadproject/LoadGame/src/loadscript/LoadScript.java</file>
+            <file>file:/home/mczarny/git/loadproject/LoadGame/src/loadscript/GameOperation.java</file>
+            <file>file:/home/mczarny/git/loadproject/LoadGame/src/script/sample2.csv</file>
+            <file>file:/home/mczarny/git/loadproject/LoadGame/src/loadscript/GameFrame.java</file>
         </group>
     </open-files>
 </project-private>

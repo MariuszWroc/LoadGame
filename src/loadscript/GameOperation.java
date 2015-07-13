@@ -36,7 +36,7 @@ public class GameOperation {
     }
 
     public static void loadGame() {
-        checkSavedGames("jacek");
+        checkSavedGamesInDB("jacek");
         convertCSVIntoSQLScript();
         runScriptFromFile(PATH + "user/insertData.sql");
     }
@@ -46,22 +46,24 @@ public class GameOperation {
 //                copyAndReplace(PATH + "original/makeMainDB.sql", PATH + "user/makeMainDB.sql", "databaseInstance", "nowaInstancja2");
         copyAndReplace(PATH + "original/insertData.sql", PATH + "user/insertData.sql", "databaseInstance", generateInstanceName());
         runScriptFromFile(PATH + "user/makeSlaskDB.sql");
-//                openFile(PATH + "user/makeMainDB.sql");
+//        runScriptFromFile(PATH + "user/makeMainDB.sql");
         runScriptFromFile(PATH + "user/insertData.sql");
-    }
-
-    private static String generateInstanceName() {
-        return "nowaInstancja";
+        insertRecordInDB();
     }
     
     public static void deleteGame() {
-        deleteGameInstance();
-        deleteCSVFile();
+        deleteFile(PATH + "sample2.csv");
         deleteRecordFromDB("mariusz");
     }
     
     public static void joinToGame() {
-        checkSavedGames("mariusz");
+        checkSavedGamesInDB("mariusz");
+    }
+    
+    
+    private static String generateInstanceName() {
+        //TODO: Query that generate new instance
+        return "nowaInstancja";
     }
         
     private static void copyAndReplace(String generalScriptPath, String userScriptPath, String replacedText, String insertedText) {
@@ -84,20 +86,52 @@ public class GameOperation {
         }
     }
 
-    private static FileWriter updateFile(String path) throws IOException {
+    private static FileWriter updateFile(String path) {
         File file = new File(path);
-        // if file doesnt exists, then create it
-        if (file.exists()) {
-            boolean isDelete = file.delete();
-            if (isDelete) {
-                fLogger.log(Level.INFO, "usunięty");
-            }
-        }
+        FileWriter fileWriter = null;
+        
+        fLogger.log(Level.INFO, "usuwanie pliku");
+        deleteFile(file);
         fLogger.log(Level.INFO, "tworzenie pliku");
-        file.createNewFile();
-        FileWriter fileWriter = new FileWriter(file.getAbsoluteFile());
+        createFile(file);
+        
+        try {
+            fileWriter = new FileWriter(file.getAbsoluteFile());
+        } catch (IOException ex) {
+            Logger.getLogger(GameOperation.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         return fileWriter;
+    }
+    
+    private static File createFile(File file) {
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (IOException ex) {
+                Logger.getLogger(GameOperation.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return file;
+    }
+    
+    private static void deleteFile(String path) {
+        File file = new File(path);
+        System.out.println("deleteFile");System.out.println("istnieje " + file.exists());
+        deleteFile(file);
+    }
+    
+    private static File deleteFile(File file) {
+        if (file.exists()) {
+            boolean isDelete = file.delete();
+            if (file.delete()) {
+                fLogger.log(Level.INFO, "usuni\u0119ty? {0}", isDelete);
+            } else {
+                fLogger.log(Level.INFO, "usuni\u0119ty? {0}", isDelete);
+            }
+        }
+        
+        return file;
     }
     
     private static void readCSV(String csvPath) {
@@ -167,20 +201,12 @@ public class GameOperation {
         return connection;
     }
 
-    private static void checkSavedGames(String user) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    private static void deleteGameInstance() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private static void checkSavedGamesInDB(String user) {
+        //TODO: query that update Game entity
     }
 
     private static void deleteRecordFromDB(String user) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    private static void deleteCSVFile() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        // TODO: delete record from user
     }
 
     private static void storeGameAsCSV() {
@@ -188,10 +214,11 @@ public class GameOperation {
     }
 
     private static void insertRecordInDB() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //TODO: query that update Game entity
     }
 
     private static void convertCSVIntoSQLScript() {
         readCSV("sciezka");
     }
+
 }
