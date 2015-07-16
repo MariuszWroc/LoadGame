@@ -111,8 +111,8 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `databaseInstance`;
-INSERT INTO `databaseInstance`.`game` (`idGame`, `game_code`, `session_id`, `game_name`, `user_status`, `clubs_dictionary_idClub`, `user_idUser`) VALUES (1, '1', '1', 'mCzarny', 1, 1, 1);
-INSERT INTO `databaseInstance`.`game` (`idGame`, `game_code`, `session_id`, `game_name`, `user_status`, `clubs_dictionary_idClub`, `user_idUser`) VALUES (2, '1', '2', 'jBednarczyk', 0, 2, 2);
+INSERT INTO `databaseInstance`.`game` (`idGame`, `game_code`, `session_id`, `game_name`, `user_status`, `clubs_dictionary_idClub`, `user_idUser`) VALUES (1, '1', '1', 'mariuszGra', 1, 1, 1);
+INSERT INTO `databaseInstance`.`game` (`idGame`, `game_code`, `session_id`, `game_name`, `user_status`, `clubs_dictionary_idClub`, `user_idUser`) VALUES (2, '1', '2', 'jacekGra', 0, 2, 2);
 
 COMMIT;
 

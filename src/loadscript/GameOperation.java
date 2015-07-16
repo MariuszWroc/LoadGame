@@ -7,18 +7,8 @@
 package loadscript;
 
 import com.ibatis.common.jdbc.ScriptRunner;
-import com.opencsv.CSVReader;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Reader;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.io.*;
+import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -27,16 +17,19 @@ import java.util.logging.Logger;
  * @author mczarny
  */
 public class GameOperation {
-    private final static String PATH = "/home/mczarny/NetBeansProjects/LoadScript/src/script/";
+    private final static String PATH = "/home/mczarny/git/loadproject/LoadGame/src/script/";
     private final static Logger fLogger = Logger.getLogger("GameOperation");
     
+    GameOperation() {
+        RecordService.readAllRecords();
+    }
+    
     public static void saveGame() {
-        storeGameAsCSV();
-        insertRecordInDB();
+        CSVService.updateCSV();
+        RecordService.createRecord();
     }
 
     public static void loadGame() {
-        checkSavedGamesInDB("jacek");
         convertCSVIntoSQLScript();
         runScriptFromFile(PATH + "user/insertData.sql");
     }
@@ -48,16 +41,16 @@ public class GameOperation {
         runScriptFromFile(PATH + "user/makeSlaskDB.sql");
 //        runScriptFromFile(PATH + "user/makeMainDB.sql");
         runScriptFromFile(PATH + "user/insertData.sql");
-        insertRecordInDB();
+        RecordService.createRecord();
     }
     
     public static void deleteGame() {
-        deleteFile(PATH + "sample2.csv");
-        deleteRecordFromDB("mariusz");
+        FileService.deleteFile(PATH + "sample2.csv");
+        RecordService.deleteRecord();
     }
     
     public static void joinToGame() {
-        checkSavedGamesInDB("mariusz");
+        RecordService.createRecord();
     }
     
     
@@ -70,8 +63,8 @@ public class GameOperation {
         try {
             BufferedReader reader = new BufferedReader(
                     new FileReader(generalScriptPath));
-            FileWriter updateFile = updateFile(userScriptPath);
-            BufferedWriter writer = new BufferedWriter(updateFile);
+            FileWriter updatedFile = FileService.updateFile(userScriptPath);
+            BufferedWriter writer = new BufferedWriter(updatedFile);
             
             String nextLine = reader.readLine();
             while (nextLine != null) {
@@ -85,140 +78,48 @@ public class GameOperation {
             fLogger.log(Level.OFF, ex.getMessage());
         }
     }
-
-    private static FileWriter updateFile(String path) {
-        File file = new File(path);
-        FileWriter fileWriter = null;
-        
-        fLogger.log(Level.INFO, "usuwanie pliku");
-        deleteFile(file);
-        fLogger.log(Level.INFO, "tworzenie pliku");
-        createFile(file);
-        
+    
+    private static void runScriptFromFile(String sqlPath) {
         try {
-            fileWriter = new FileWriter(file.getAbsoluteFile());
-        } catch (IOException ex) {
-            Logger.getLogger(GameOperation.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        return fileWriter;
-    }
-    
-    private static File createFile(File file) {
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException ex) {
-                Logger.getLogger(GameOperation.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        return file;
-    }
-    
-    private static void deleteFile(String path) {
-        File file = new File(path);
-        System.out.println("deleteFile");System.out.println("istnieje " + file.exists());
-        deleteFile(file);
-    }
-    
-    private static File deleteFile(File file) {
-        if (file.exists()) {
-            boolean isDelete = file.delete();
-            if (file.delete()) {
-                fLogger.log(Level.INFO, "usuni\u0119ty? {0}", isDelete);
-            } else {
-                fLogger.log(Level.INFO, "usuni\u0119ty? {0}", isDelete);
-            }
-        }
-        
-        return file;
-    }
-    
-    private static void readCSV(String csvPath) {
-        try {
-            CSVReader csvReader = null;
-            try {
-                csvReader = new CSVReader(new FileReader(csvPath));
-            } catch (FileNotFoundException ex) {
-                fLogger.log(Level.OFF, ex.getMessage());
-            }
-            String[] row = null;
-            try {
-                while((row = csvReader.readNext()) != null) {
-                    System.out.println(row[0]
-                            + " # " + row[1]
-                            + " #  " + row[2]);
-                }
-            } catch (IOException ex) {
-                fLogger.log(Level.OFF, ex.getMessage());
-            }
-            csvReader.close();
-        } catch (IOException ex) {
+            ScriptRunner sr = new ScriptRunner(connectDB(), false, false);
+            Reader reader = new BufferedReader(new FileReader(sqlPath));
+            sr.runScript(reader);
+        } catch (IOException | SQLException ex) {
             fLogger.log(Level.OFF, ex.getMessage());
         }
     }
-    
-    private static void runScriptFromFile(String sqlPath){
-		try {
-                    ScriptRunner sr = new ScriptRunner(connectDB(), false, false);
-                    Reader reader = new BufferedReader(new FileReader(sqlPath));
-                    sr.runScript(reader);
-		} catch (Exception ex) {
-			fLogger.log(Level.OFF, ex.getMessage());
-		}
-    }
    
     private static Connection connectDB() {
-
-        System.out.println("-------- MySQL JDBC Connection Testing ------------");
-
+        fLogger.log(Level.OFF, "-------- MySQL JDBC Connection Testing ------------");
+        Connection connection;
         try {
             Class.forName("com.mysql.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            System.out.println("Where is your MySQL JDBC Driver?");
-            e.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            fLogger.log(Level.OFF, "Where is your MySQL JDBC Driver? {0}", ex.getMessage());
             return null;
         }
+        fLogger.log(Level.OFF, "MySQL JDBC Driver Registered!");
 
-        System.out.println("MySQL JDBC Driver Registered!");
-        Connection connection = null;
 
         try {
             connection = DriverManager
                     .getConnection("jdbc:mysql://localhost:3306/slaskdb", "root", "root");
 
-        } catch (SQLException e) {
-            System.out.println("Connection Failed! Check output console");
-            e.printStackTrace();
+        } catch (SQLException ex) {
+            fLogger.log(Level.OFF, "Connection Failed! Check output console {0}", ex.getMessage());
             return null;
         }
 
         if (connection != null) {
-            System.out.println("You made it, take control your database now!");
+            fLogger.log(Level.OFF, "You made it, take control your database now!");
         } else {
-            System.out.println("Failed to make connection!");
+            fLogger.log(Level.OFF, "Failed to make connection!");
         }
         return connection;
     }
 
-    private static void checkSavedGamesInDB(String user) {
-        //TODO: query that update Game entity
-    }
-
-    private static void deleteRecordFromDB(String user) {
-        // TODO: delete record from user
-    }
-
-    private static void storeGameAsCSV() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    private static void insertRecordInDB() {
-        //TODO: query that update Game entity
-    }
-
     private static void convertCSVIntoSQLScript() {
-        readCSV("sciezka");
+        CSVService.readCSV(PATH + "sample2.csv");
     }
 
 }
