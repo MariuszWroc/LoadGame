@@ -21,9 +21,7 @@ public class FileService {
         File file = new File(path);
         FileWriter fileWriter = null;
 
-        fLogger.log(Level.INFO, "usuwanie pliku");
         deleteFile(file);
-        fLogger.log(Level.INFO, "tworzenie pliku");
         createFile(file);
 
         try {
@@ -36,6 +34,8 @@ public class FileService {
     }
 
     public static File createFile(File file) {
+        fLogger.log(Level.INFO, "tworzenie pliku");
+        
         if (!file.exists()) {
             try {
                 file.createNewFile();
@@ -47,6 +47,8 @@ public class FileService {
     }
 
     public static void readile(File file) {
+        fLogger.log(Level.INFO, "wczytywanie pliku");
+        
         if (!file.exists()) {
                 if (file.canRead()) {
                     try {
@@ -66,19 +68,19 @@ public class FileService {
     }
 
     public static void deleteFile(String path) {
+        fLogger.log(Level.INFO, "usuwanie pliku");
         File file = new File(path);
-        System.out.println("deleteFile");
-        System.out.println("istnieje " + file.exists());
         deleteFile(file);
     }
 
     public static File deleteFile(File file) {
+        fLogger.log(Level.INFO, "usuwanie pliku");
         if (file.exists()) {
             boolean isDelete = file.delete();
-            if (file.delete()) {
-                fLogger.log(Level.INFO, "usuni\u0119ty? {0}", isDelete);
+            if (isDelete) {
+                fLogger.log(Level.INFO, "usunięty");
             } else {
-                fLogger.log(Level.INFO, "usuni\u0119ty? {0}", isDelete);
+                fLogger.log(Level.INFO, "nie usunięty");
             }
         }
 

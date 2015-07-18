@@ -19,8 +19,15 @@ import java.util.logging.Logger;
  */
 public class CSVService {
     private final static Logger fLogger = Logger.getLogger("FileService");
+     private final static String constantPath = "/home/mczarny/git/loadproject/LoadGame/src/script/sample.csv";
+    
+        public static void readCSV() {
+            fLogger.log(Level.INFO, "readCSV()");
+            readCSV(constantPath);
+    }
 
     public static void readCSV(String csvPath) {
+        fLogger.log(Level.INFO, "readCSV(String " + csvPath.toString() + ")");
         try {
             CSVReader csvReader = null;
             String[] row = null;
@@ -33,9 +40,9 @@ public class CSVService {
 
             try {
                 while ((row = csvReader.readNext()) != null) {
-                    System.out.println(row[0]
-                            + " # " + row[1]
-                            + " #  " + row[2]);
+                   System.out.println(row[0]
+               + " # " + row[1]
+               + " #  " + row[2]);
                 }
             } catch (IOException ex) {
                 fLogger.log(Level.OFF, ex.getMessage());
@@ -47,11 +54,14 @@ public class CSVService {
     }
 
     public static void createCSV() {
+        fLogger.log(Level.INFO, "createCSV()");
     }
     
     public static void deleteCSV() {
+        fLogger.log(Level.INFO, "deleteCSV()");
     }
 
     public static void updateCSV() {
+        fLogger.log(Level.INFO, "updateCSV()");
     }
 }

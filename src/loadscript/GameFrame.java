@@ -19,17 +19,22 @@ public class GameFrame extends JFrame {
     }
 
     private void initUI() {
-        setTitle("Okno testowe - operacje na grze");
+        setTitle("OKNO TESTOWE - OPERACJE NA GRZE");
         setSize(300, 250);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(null);
         
-        JButton createGameButton = new JButton("Nowa gra");
-        JButton loadGameButton = new JButton("Wczytaj grę");
-        JButton deleteGameButton = new JButton("Usun wpis");
-        JButton saveGameButton = new JButton("Zapisz grę");
-        JButton joinToButton = new JButton("Dołącz do");
+        JButton createGameButton = new JButton("NOWA GRA");
+        JButton loadGameButton = new JButton("WCZYTAJ GRĘ");
+        JButton deleteGameButton = new JButton("USUN WPIS");
+        JButton saveGameButton = new JButton("ZAPISZ GRĘ");
+        JButton joinToButton = new JButton("DOŁĄCZ DO");
+        
+        JButton csvReadButton = new JButton("WCZYTAJ CSV");
+        JButton csvWriteButton = new JButton("ZAPISZ CSV");
+        JButton csvDeleteButton = new JButton("USUŃ CSV");
+        JButton csvUpdateButton = new JButton("UPDATE CSV");
         
         doCreateGame(createGameButton);
         doLoadGame(loadGameButton);
@@ -37,17 +42,33 @@ public class GameFrame extends JFrame {
         doSaveGame(saveGameButton);
         doJoinTo(saveGameButton);
         
-        createGameButton.setBounds(0, 50, 150, 25);
-        loadGameButton.setBounds(0, 0, 150, 25);
+        doReadCSV(csvReadButton);
+        doWriteCSV(csvWriteButton);
+        doUpdateCSV(csvUpdateButton);
+        doDeleteCSV(csvDeleteButton);
+        
+        // lewy , górny , prawy, dolny)
+        createGameButton.setBounds(0, 0, 150, 25);
+        loadGameButton.setBounds(0, 25, 150, 25);
         deleteGameButton.setBounds(150, 0, 150, 25);
-        saveGameButton.setBounds(150 , 50, 150, 25);
-        joinToButton.setBounds(150, 50, 150, 25);
+        saveGameButton.setBounds(150, 25, 150, 25);
+        joinToButton.setBounds(0, 50, 150, 25);
+        
+        csvReadButton.setBounds(150, 50, 150, 25);
+        csvWriteButton.setBounds(150, 75, 150, 25);
+        csvDeleteButton.setBounds(0, 75, 150, 25);
+        csvUpdateButton.setBounds(0, 100, 150, 25);
         
         add(createGameButton);
         add(loadGameButton);
         add(deleteGameButton);
         add(saveGameButton);
         add(joinToButton);
+        
+        add(csvReadButton);
+        add(csvWriteButton);
+        add(csvDeleteButton);
+        add(csvUpdateButton);
     }
 
     private void doSaveGame(JButton saveGameButton) {
@@ -69,7 +90,7 @@ public class GameFrame extends JFrame {
     }
 
     private void doLoadGame(JButton loadGameButton) {
-        loadGameButton.setToolTipText("wczytuje dane z pliku");
+        loadGameButton.setToolTipText("WCZYTUJE DANE Z PLIKU");
         loadGameButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
@@ -92,6 +113,43 @@ public class GameFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent event) {
                 GameOperation.joinToGame();
+            }
+        });
+    }
+    
+    private void doReadCSV(JButton button) {
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                CSVService.readCSV();
+            }
+        });
+    }
+
+    private void doWriteCSV(JButton button) {
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                CSVService.createCSV();
+            }
+        });
+    }
+
+    private void doDeleteCSV(JButton button) {
+        button.setToolTipText("WCZYTUJE DANE Z PLIKU CSV");
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                CSVService.deleteCSV();
+            }
+        });
+    }
+
+    private void doUpdateCSV(JButton button) {
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                CSVService.updateCSV();
             }
         });
     }

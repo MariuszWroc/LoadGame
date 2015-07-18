@@ -2,6 +2,17 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/home/mczarny/git/loadproject/LoadGame/src/loadscript/GameOperation.java</file>
+            <file>file:/home/mczarny/git/loadproject/LoadGame/src/script/original/makeMainDB.sql</file>
+            <file>file:/home/mczarny/git/loadproject/LoadGame/src/script/original/makeSlaskDB.sql</file>
+            <file>file:/home/mczarny/git/loadproject/LoadGame/src/script/original/insertData.sql</file>
+            <file>file:/home/mczarny/git/loadproject/LoadGame/src/loadscript/RecordService.java</file>
+            <file>file:/home/mczarny/git/loadproject/LoadGame/src/loadscript/FileService.java</file>
+            <file>file:/home/mczarny/git/loadproject/LoadGame/src/loadscript/GameFrame.java</file>
+            <file>file:/home/mczarny/git/loadproject/LoadGame/src/loadscript/CSVService.java</file>
+            <file>file:/home/mczarny/git/loadproject/LoadGame/src/script/nowyskrypt.sql</file>
+            <file>file:/home/mczarny/git/loadproject/LoadGame/src/loadscript/LoadScript.java</file>
+        </group>
     </open-files>
 </project-private>

@@ -14,26 +14,26 @@ import java.util.logging.Logger;
  * @author mczarny
  */
 public class RecordService {
-    private final static Logger fLogger = Logger.getLogger("RecordService");
+    private final static Logger fLogger = Logger.getLogger("RECORDSERVICE");
         
         
     public static void createRecord() {
         //TODO: query that insert Game entity
-        fLogger.log(Level.OFF, "record created");
+        fLogger.log(Level.OFF, "RECORD CREATED");
     }
     
     public static void readAllRecords() {
         //TODO: query that update Game entity
-        fLogger.log(Level.OFF, "records readed");
+        fLogger.log(Level.OFF, "RECORDS READED");
     }
     
     public static void updateRecord() {
         //TODO: query that update Game entity
-        fLogger.log(Level.OFF, "record updated");
+        fLogger.log(Level.OFF, "RECORD UPDATED");
     }
     
     public static void deleteRecord() {
         // TODO: delete record from user
-        fLogger.log(Level.OFF, "record deleted");
+        fLogger.log(Level.OFF, "RECORD DELETED");
     }
 }

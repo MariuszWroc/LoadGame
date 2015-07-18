@@ -56,7 +56,7 @@ public class GameOperation {
     
     private static String generateInstanceName() {
         //TODO: Query that generate new instance
-        return "nowaInstancja";
+        return "NOWAINSTANCJA";
     }
         
     private static void copyAndReplace(String generalScriptPath, String userScriptPath, String replacedText, String insertedText) {
@@ -90,15 +90,15 @@ public class GameOperation {
     }
    
     private static Connection connectDB() {
-        fLogger.log(Level.OFF, "-------- MySQL JDBC Connection Testing ------------");
+        fLogger.log(Level.OFF, "-------- MYSQL JDBC CONNECTION TESTING ------------");
         Connection connection;
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.jdbc.driver");
         } catch (ClassNotFoundException ex) {
-            fLogger.log(Level.OFF, "Where is your MySQL JDBC Driver? {0}", ex.getMessage());
+            fLogger.log(Level.OFF, "WHERE IS YOUR MYSQL JDBC DRIVER? {0}" + ex.getMessage());
             return null;
         }
-        fLogger.log(Level.OFF, "MySQL JDBC Driver Registered!");
+        fLogger.log(Level.OFF, "MYSQL JDBC DRIVER REGISTERED!");
 
 
         try {
@@ -106,14 +106,14 @@ public class GameOperation {
                     .getConnection("jdbc:mysql://localhost:3306/slaskdb", "root", "root");
 
         } catch (SQLException ex) {
-            fLogger.log(Level.OFF, "Connection Failed! Check output console {0}", ex.getMessage());
+            fLogger.log(Level.OFF, "CONNECTION FAILED! CHECK OUTPUT CONSOLE {0}" + ex.getMessage());
             return null;
         }
 
         if (connection != null) {
-            fLogger.log(Level.OFF, "You made it, take control your database now!");
+            fLogger.log(Level.OFF, "YOU MADE IT, TAKE CONTROL YOUR DATABASE NOW!");
         } else {
-            fLogger.log(Level.OFF, "Failed to make connection!");
+            fLogger.log(Level.OFF, "FAILED TO MAKE CONNECTION!");
         }
         return connection;
     }
